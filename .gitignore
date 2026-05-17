@@ -53,3 +53,16 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Build directories
+bin/
+build/
+out/
+
+# Editor configs
+.vscode/
+.vs/
+.idea/
+
+# Python virtual environment
+.venv/

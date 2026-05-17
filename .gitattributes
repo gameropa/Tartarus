@@ -1,0 +1,35 @@
+# TARTARUS Engine - GitAttributes Configuration
+# Forces consistent line endings and proper diff behavior
+
+* text=auto eol=lf
+
+*.c text eol=lf
+*.h text eol=lf
+*.cpp text eol=lf
+*.hpp text eol=lf
+*.cc text eol=lf
+*.hh text eol=lf
+*.inl text eol=lf
+
+*.c diff=cpp
+*.h diff=cpp
+*.cpp diff=cpp
+*.hpp diff=cpp
+
+Makefile text eol=lf
+*.mk text eol=lf
+.clang-format text eol=lf
+.editorconfig text eol=lf
+.gitignore text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.tga binary
+*.obj binary
+*.fbx binary
+*.ttf binary
+*.a binary
+*.so binary
+*.dll binary
+*.exe binary
