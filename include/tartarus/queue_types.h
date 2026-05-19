@@ -1,14 +1,14 @@
 #ifndef TARTARUS_QUEUE_TYPES_H
 #define TARTARUS_QUEUE_TYPES_H
 
-#include "int_types.h"
+#include <tartarus/int_types.h>
 
 struct Queue {
 	usize max_size;
 	u64 mask;
 	u64 head;
 	u64 tail;
-	u8 __pad2[64] __attribute__((aligned(64)));
+	u8 __pad[64] __attribute__((aligned(64)));
 	u8 *buff;
 } __attribute__((aligned(64)));
 
@@ -23,13 +23,12 @@ struct LFQueue {
 	u8 *buff;
 } __attribute__((aligned(64)));
 
-static __attribute__((always_inline)) usize curr_queue_size(struct Queue *queue)
+static inline usize curr_queue_size(struct Queue *queue)
 {
 	return queue->tail - queue->head;
 }
 
-static __attribute__((always_inline)) usize
-curr_lfqueue_size(struct LFQueue *lfqueue)
+static inline usize curr_lfqueue_size(struct LFQueue *lfqueue)
 {
 	usize t = __atomic_load_n(&lfqueue->tail, __ATOMIC_RELAXED);
 	usize h = __atomic_load_n(&lfqueue->head, __ATOMIC_RELAXED);

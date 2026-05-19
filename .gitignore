@@ -66,3 +66,5 @@ out/
 
 # Python virtual environment
 .venv/
+
+compile_flags.txt

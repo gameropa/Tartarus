@@ -16,10 +16,26 @@ typedef unsigned int u128 __attribute__((mode(TI)));
 typedef __SIZE_TYPE__ usize;
 typedef __UINTPTR_TYPE__ uptr;
 typedef __INTPTR_TYPE__ iptr;
+typedef __PTRDIFF_TYPE__ idiff;
 
 #define __int8_t_defined
 #define __int16_t_defined
 #define __int32_t_defined
 #define __int64_t_defined
+
+#if (!defined(__STDC_VERSION__) || __STDC_VERSION__ < 202311L) && \
+	!defined(__cplusplus)
+#ifndef nullptr
+#define nullptr ((void *)0)
+typedef void *nullptr_t;
+#endif
+
+#ifndef __bool_true_false_are_defined
+#define bool _Bool
+#define true 1
+#define false 0
+#define __bool_true_false_are_defined
+#endif
+#endif
 
 #endif /* TARTARUS_INT_TYPES_H */
