@@ -1,5 +1,5 @@
-#ifndef TARTARUS_ASM_ARCH_X86_64_COMMON_MATH
-#define TARTARUS_ASM_ARCH_X86_64_COMMON_MATH
+#ifndef TARTARUS_ASM_ARCH_X86_64_COMMON_MATH_H
+#define TARTARUS_ASM_ARCH_X86_64_COMMON_MATH_H
 
 #include <tartarus/int_types.h>
 
@@ -36,4 +36,4 @@ static inline u64 rotr64(u64 x, u8 r)
 	return x;
 }
 
-#endif /* TARTARUS_ASM_ARCH_X86_64_COMMON_MATH */
+#endif /* TARTARUS_ASM_ARCH_X86_64_COMMON_MATH_H */

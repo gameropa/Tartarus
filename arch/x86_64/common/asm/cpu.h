@@ -1,5 +1,5 @@
-#ifndef TARTARUS_ASM_ARCH_X86_64_COMMON_CPU
-#define TARTARUS_ASM_ARCH_X86_64_COMMON_CPU
+#ifndef TARTARUS_ASM_ARCH_X86_64_COMMON_CPU_H
+#define TARTARUS_ASM_ARCH_X86_64_COMMON_CPU_H
 
 #include <tartarus/int_types.h>
 
@@ -16,4 +16,4 @@ static inline void cpuid(u32 code, u32 subcode, u32 abcd[4])
 			 : "a"(code), "c"(subcode));
 }
 
-#endif /* TARTARUS_ASM_ARCH_X86_64_COMMON_CPU */
+#endif /* TARTARUS_ASM_ARCH_X86_64_COMMON_CPU_H */

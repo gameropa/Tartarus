@@ -5,4 +5,7 @@
 
 #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
 
+#define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+#define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+
 #endif /* TARTARUS_BUILD_BUG_H */

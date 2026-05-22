@@ -38,4 +38,6 @@ typedef void *nullptr_t;
 #endif
 #endif
 
+#define NULL ((void *)0)
+
 #endif /* TARTARUS_INT_TYPES_H */
