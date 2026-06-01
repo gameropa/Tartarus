@@ -15,7 +15,7 @@ static inline void *offset_to_ptr(const i32 *off)
 	return (void *)((u64 *)off + *off);
 }
 
-#define is_signed_type(type) (((type)(-1) < (__force type)1))
+#define is_signed_type(type) (((type)(-1) < (type)1))
 #define is_unsigned_type(type) (!is_signed_type(type))
 
 #define statically_true(x) (__builtin_constant_p(x) && (x))

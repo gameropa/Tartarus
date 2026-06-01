@@ -4,6 +4,8 @@
 #include <tartarus/compiler.h>
 #include <tartarus/math.h>
 
+struct Quaternion;
+
 struct Vec3 {
 	union {
 		struct {
@@ -13,7 +15,7 @@ struct Vec3 {
 	};
 } __attribute__((packed));
 
-static inline struct Vec3 add_v3(struct Vec3 *a, struct Vec3 *b)
+static inline struct Vec3 add_v3(const struct Vec3 *a, const struct Vec3 *b)
 {
 	struct Vec3 res;
 	for (int i = 0; i < 3; ++i)
@@ -21,11 +23,29 @@ static inline struct Vec3 add_v3(struct Vec3 *a, struct Vec3 *b)
 	return res;
 }
 
-static inline struct Vec3 sub_v3(struct Vec3 *a, struct Vec3 *b)
+static inline struct Vec3 sub_v3(const struct Vec3 *a, const struct Vec3 *b)
 {
 	struct Vec3 res;
 	for (int i = 0; i < 3; ++i)
 		res.vec[i] = a->vec[i] - b->vec[i];
+	return res;
+}
+
+static inline struct Vec3 comp_mult_v3(const struct Vec3 *a,
+				       const struct Vec3 *b)
+{
+	struct Vec3 res;
+	for (int i = 0; i < 3; ++i)
+		res.vec[i] = a->vec[i] * b->vec[i];
+	return res;
+}
+
+static inline struct Vec3 comp_div_v3(const struct Vec3 *a,
+				      const struct Vec3 *b)
+{
+	struct Vec3 res;
+	for (int i = 0; i < 3; ++i)
+		res.vec[i] = a->vec[i] / b->vec[i];
 	return res;
 }
 
@@ -41,15 +61,16 @@ static inline void div_scal_v3(struct Vec3 *x, float scalar)
 	mult_scal_v3(x, inv_scal);
 }
 
-static inline float dot_product_v3(struct Vec3 *a, struct Vec3 *b)
+static inline float dot_product_v3(const struct Vec3 *a, const struct Vec3 *b)
 {
-	float res = 0;
+	float res = 0.0f;
 	for (int i = 0; i < 3; ++i)
 		res += a->vec[i] * b->vec[i];
 	return res;
 }
 
-static inline struct Vec3 cross_product_v3(struct Vec3 *a, struct Vec3 *b)
+static inline struct Vec3 cross_product_v3(const struct Vec3 *a,
+					   const struct Vec3 *b)
 {
 	struct Vec3 res;
 
@@ -60,24 +81,23 @@ static inline struct Vec3 cross_product_v3(struct Vec3 *a, struct Vec3 *b)
 	return res;
 }
 
-static inline float triple_product_v3(struct Vec3 *a, struct Vec3 *b,
-				      struct Vec3 *c)
+static inline float triple_product_v3(const struct Vec3 *a,
+				      const struct Vec3 *b,
+				      const struct Vec3 *c)
 {
 	struct Vec3 cross_prod = cross_product_v3(a, b);
 	return dot_product_v3(&cross_prod, c);
 }
 
-static inline float len_v3(struct Vec3 *x)
-{
-	float sqsum = 0.0f;
-	for (int i = 0; i < 3; ++i)
-		sqsum += x->vec[i] * x->vec[i];
-	return fsqrt(sqsum);
-}
-
-static inline float sqlen_v3(struct Vec3 *x)
+static inline float sqlen_v3(const struct Vec3 *x)
 {
 	return dot_product_v3(x, x);
+}
+
+static inline float len_v3(const struct Vec3 *x)
+{
+	float sqsum = sqlen_v3(x);
+	return fsqrt(sqsum);
 }
 
 static inline void norm_v3(struct Vec3 *x)
@@ -87,19 +107,20 @@ static inline void norm_v3(struct Vec3 *x)
 		div_scal_v3(x, len);
 }
 
-static inline float dist_v3(struct Vec3 *a, struct Vec3 *b)
+static inline float dist_v3(const struct Vec3 *a, const struct Vec3 *b)
 {
 	struct Vec3 diff = sub_v3(a, b);
 	return len_v3(&diff);
 }
 
-static inline float sqdist_v3(struct Vec3 *a, struct Vec3 *b)
+static inline float sqdist_v3(const struct Vec3 *a, const struct Vec3 *b)
 {
 	struct Vec3 diff = sub_v3(a, b);
 	return sqlen_v3(&diff);
 }
 
-static inline struct Vec3 lerp_v3(struct Vec3 *a, struct Vec3 *b, float t)
+static inline struct Vec3 lerp_v3(const struct Vec3 *a, const struct Vec3 *b,
+				  float t)
 {
 	struct Vec3 res;
 	for (int i = 0; i < 3; ++i)
@@ -107,7 +128,7 @@ static inline struct Vec3 lerp_v3(struct Vec3 *a, struct Vec3 *b, float t)
 	return res;
 }
 
-static inline struct Vec3 proj_v3(struct Vec3 *a, struct Vec3 *b)
+static inline struct Vec3 proj_v3(const struct Vec3 *a, const struct Vec3 *b)
 {
 	struct Vec3 res = *b;
 	float sqlen_b = sqlen_v3(b);
@@ -119,7 +140,7 @@ static inline struct Vec3 proj_v3(struct Vec3 *a, struct Vec3 *b)
 	return res;
 }
 
-static inline struct Vec3 reflect_v3(struct Vec3 *v, struct Vec3 *n)
+static inline struct Vec3 reflect_v3(const struct Vec3 *v, const struct Vec3 *n)
 {
 	struct Vec3 res;
 	float dot2 = 2.0f * dot_product_v3(v, n);
@@ -128,5 +149,8 @@ static inline struct Vec3 reflect_v3(struct Vec3 *v, struct Vec3 *n)
 		res.vec[i] = v->vec[i] - dot2 * n->vec[i];
 	return res;
 }
+
+static inline struct Vec3 rotate_v3(const struct Vec3 *v,
+				    const struct Quaternion *q);
 
 #endif /* TARTARUS_LIN_ALGEBRA_VEC3_H */

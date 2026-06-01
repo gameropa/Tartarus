@@ -8,7 +8,7 @@
  * double ended queue (Deque). The padding is important to prevent that meta data and
  * buffer-data are in the same cache line. This is also important for SIMD-operations.
  *
- * @note max_size must be base 2, otherwise the queue won't work. That's beacause we use
+ * @note max_size must be base 2, otherwise the queue won't work. That's because we use
  * a mask to get the actual head and tail indizes from the stored. The current indizes
  * are unsigned to make a wrap around possible, when reaching the maximum value.
  * This ensures that the true index can always be obtained.
