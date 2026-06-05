@@ -4,7 +4,7 @@
 #include <tartarus/build_bug.h>
 #include <tartarus/stddef.h>
 
-#define typeof_member(type, member) typeof(((T *)0)->member)
+#define typeof_member(type, member) typeof(((type *)0)->member)
 
 #define container_of(ptr, type, member)                                   \
 	({                                                                \
