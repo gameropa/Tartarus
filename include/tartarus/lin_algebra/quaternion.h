@@ -1,3 +1,8 @@
+/**
+ * Remove lenght checks from the functions to improve perfomance
+ * We don't assume the length is 0.0f
+ */
+
 #ifndef TARTARUS_LIN_ALGEBRA_QUATERNION_H
 #define TARTARUS_LIN_ALGEBRA_QUATERNION_H
 
@@ -84,9 +89,9 @@ static inline struct Quaternion mult_quat(struct Quaternion a,
 					  struct Quaternion b)
 {
 	struct Quaternion res;
-	res.scal = a.scal * b.scal - dot_product_v3(&a.vec, &b.vec);
+	res.scal = a.scal * b.scal - dot_product_v3(a.vec, b.vec);
 
-	struct Vec3 cross = cross_product_v3(&a.vec, &b.vec);
+	struct Vec3 cross = cross_product_v3(a.vec, b.vec);
 
 	for (int i = 0; i < 3; ++i)
 		res.vec.vec[i] = (a.scal * b.vec.vec[i]) +
@@ -143,13 +148,13 @@ static inline struct Quaternion inv_quat(struct Quaternion x)
 static inline struct Vec3 rotate_v3(struct Vec3 v, struct Quaternion q)
 {
 	struct Vec3 qv = q.vec;
-	struct Vec3 uv = cross_product_v3(&qv, v);
-	struct Vec3 uuv = cross_product_v3(&qv, &uv);
+	struct Vec3 uv = cross_product_v3(qv, v);
+	struct Vec3 uuv = cross_product_v3(qv, uv);
 
 	for (int i = 0; i < 3; ++i)
 		uv.vec[i] = (uv.vec[i] * q.scal + uuv.vec[i]) * 2.0f;
 
-	return add_v3(v, &uv);
+	return add_v3(v, uv);
 }
 
 /**
