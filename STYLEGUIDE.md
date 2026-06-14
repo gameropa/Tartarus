@@ -46,7 +46,7 @@ struct Vec3 {
 };
 ```
 
-- **Don't use double slash comments (`// Comment`) for oneliner:** Use only block comments for your c code:
+- **Don't use double slash comments (`// Comment`) for oneliner:** Only use block comments for your C code:
 
 ```c
 /* One line comment. */

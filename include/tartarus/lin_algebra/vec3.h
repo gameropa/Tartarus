@@ -150,7 +150,6 @@ static inline struct Vec3 reflect_v3(const struct Vec3 *v, const struct Vec3 *n)
 	return res;
 }
 
-static inline struct Vec3 rotate_v3(const struct Vec3 *v,
-				    const struct Quaternion *q);
+static inline struct Vec3 rotate_v3(struct Vec3 v, struct Quaternion q);
 
 #endif /* TARTARUS_LIN_ALGEBRA_VEC3_H */
