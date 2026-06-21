@@ -5,7 +5,7 @@
 #include <tartarus/math.h>
 
 /**
- * @brief Structure for a 3d vector. Uses an union to represent
+ * @brief Structure for a 2d vector. Uses an union to represent
  * the data in different ways.
  */
 struct Vec2 {
@@ -68,6 +68,7 @@ static inline struct Vec2 comp_mult_v2(struct Vec2 a, struct Vec2 b)
  * @param a 		The first vector.
  * @param b 		The second vector.
  * @return struct Vec2 		The result.
+ * @note B cannot have a member with a value of 0.0f.
  */
 static inline struct Vec2 comp_div_v2(struct Vec2 a, struct Vec2 b)
 {
@@ -98,6 +99,7 @@ static inline struct Vec2 mult_scal_v2(struct Vec2 x, float scalar)
  * @param x 		The vector to divide with.
  * @param scalar 	The scalar.
  * @return struct Vec2		The result.
+ * @note The scalar cannot be 0.0f.
  */
 static inline struct Vec2 div_scal_v2(struct Vec2 x, float scalar)
 {
@@ -238,6 +240,15 @@ static inline float sqdist_v2(struct Vec2 a, struct Vec2 b)
 	return sqlen_v2(diff);
 }
 
+/**
+ * @brief Linear interpolation. Calculates a position between a and b.
+ *
+ * @param a 		The first vector.
+ * @param b 		The second vector.
+ * @param t 		The interpolation factor. Must be between 0 (Point is on a)
+ * 			and 1 (Point is on b).
+ * @return struct Vec4 		The point between a and b.
+ */
 static inline struct Vec2 lerp_v2(struct Vec2 a, struct Vec2 b, float t)
 {
 	struct Vec2 res;
@@ -246,6 +257,14 @@ static inline struct Vec2 lerp_v2(struct Vec2 a, struct Vec2 b, float t)
 	return res;
 }
 
+/**
+ * @brief Projects a on b. The result points in the same or opposite direction
+ * as b. The result has a maximum length of b.
+ *
+ * @param a 		The vector to project.
+ * @param b 		The vector to project on.
+ * @return struct Vec4 		The projected vector.
+ */
 static inline struct Vec2 proj_v2(struct Vec2 a, struct Vec2 b)
 {
 	struct Vec2 res = b;
@@ -258,6 +277,15 @@ static inline struct Vec2 proj_v2(struct Vec2 a, struct Vec2 b)
 	return res;
 }
 
+/**
+ * @brief Reflects v on n.
+ *
+ * @param v 		The incident vector to reflect (Pointing towards the surface).
+ * @param n		The surface normal vector.
+ * @return struct Vec4		The reflected vector.
+ * @note N must be normalized, otherwise the result will be incorrect. Also assumes
+ * v points to the surface.
+ */
 static inline struct Vec2 reflect_v2(struct Vec2 v, struct Vec2 n)
 {
 	struct Vec2 res;

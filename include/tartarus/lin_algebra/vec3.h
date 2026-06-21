@@ -261,6 +261,15 @@ static inline float sqdist_v3(struct Vec3 a, struct Vec3 b)
 	return sqlen_v3(diff);
 }
 
+/**
+ * @brief Linear interpolation. Calculates a position between a and b.
+ *
+ * @param a 		The first vector.
+ * @param b 		The second vector.
+ * @param t 		The interpolation factor. Must be between 0 (Point is on a)
+ * 			and 1 (Point is on b).
+ * @return struct Vec4 		The point between a and b.
+ */
 static inline struct Vec3 lerp_v3(struct Vec3 a, struct Vec3 b, float t)
 {
 	struct Vec3 res;
@@ -269,6 +278,14 @@ static inline struct Vec3 lerp_v3(struct Vec3 a, struct Vec3 b, float t)
 	return res;
 }
 
+/**
+ * @brief Projects a on b. The result points in the same or opposite direction
+ * as b. The result has a maximum length of b.
+ *
+ * @param a 		The vector to project.
+ * @param b 		The vector to project on.
+ * @return struct Vec4 		The projected vector.
+ */
 static inline struct Vec3 proj_v3(struct Vec3 a, struct Vec3 b)
 {
 	struct Vec3 res = b;
@@ -281,6 +298,15 @@ static inline struct Vec3 proj_v3(struct Vec3 a, struct Vec3 b)
 	return res;
 }
 
+/**
+ * @brief Reflects v on n.
+ *
+ * @param v 		The incident vector to reflect (Pointing towards the surface).
+ * @param n		The surface normal vector.
+ * @return struct Vec4		The reflected vector.
+ * @note N must be normalized, otherwise the result will be incorrect. Also assumes
+ * v points to the surface.
+ */
 static inline struct Vec3 reflect_v3(struct Vec3 v, struct Vec3 n)
 {
 	struct Vec3 res;
