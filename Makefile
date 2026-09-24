@@ -19,22 +19,14 @@ else
 
     ifeq ($(UNAME_S),Linux)
         OS_NAME := linux
-    else
-        ifeq ($(UNAME_S),Darwin)
-            OS_NAME := macos
-        endif
+    else ifeq ($(UNAME_S),Darwin)
+        OS_NAME := macos
     endif
 
     ifeq ($(UNAME_M),x86_64)
         ARCH_NAME := x86_64
-    else
-        ifeq ($(UNAME_M),arm64)
-            ARCH_NAME := AArch64
-        else
-            ifeq ($(UNAME_M),aarch64)
-                ARCH_NAME := AArch64
-            endif
-        endif
+    else ifeq ($(filter $(UNAME_M),arm64 aarch64),$(UNAME_M))
+        ARCH_NAME := AArch64
     endif
 endif
 
@@ -44,8 +36,8 @@ INCLUDE_FLAGS := -Iinclude \
 
 CFLAGS += $(INCLUDE_FLAGS)
 
-SRC_C   := $(wildcard src/**/*.c)
-SRC_ASM := $(wildcard arch/$(ARCH_NAME)/$(OS_NAME)/**/*.S)
+SRC_C   := $(shell find src -type f -name '*.c' 2>/dev/null)
+SRC_ASM := $(shell find arch/$(ARCH_NAME)/$(OS_NAME) -type f -name '*.S' 2>/dev/null)
 
 OBJ := $(SRC_C:.c=.o) $(SRC_ASM:.S=.o)
 TARGET := libtartarus.a
@@ -58,9 +50,10 @@ $(TARGET): $(OBJ)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+%.o: %.S
+	$(CC) $(CFLAGS) -x assembler-with-cpp -c $< -o $@
+
 clean:
 	rm -f $(OBJ) $(TARGET)
 
 .PHONY: all clean
-
-##### !!! ONLY TESTWISE - NOT FINAL !!! ######
